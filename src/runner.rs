@@ -3,6 +3,8 @@ use std::collections::HashMap;
 use std::fs::File;
 use std::io::{self, BufRead};
 
+use crate::Options;
+
 pub fn run(config: Config) {
     // Count number of each letters in input string
     let mut input_letter_count: HashMap<char, u8> = HashMap::new();
@@ -53,12 +55,12 @@ pub fn run(config: Config) {
         }
     }
 
-    if config.options == ass1::Options::Alpha {
+    if config.options == Options::Alpha {
         out.sort();
         for word in &out {
             println! {"{word}"}
         }
-    } else if config.options == ass1::Options::Len {
+    } else if config.options == Options::Len {
         out.sort();
         while longest > 0 {
             for word in &out {
@@ -68,7 +70,7 @@ pub fn run(config: Config) {
             }
             longest -= 1;
         }
-    } else if config.options == ass1::Options::Longest {
+    } else if config.options == Options::Longest {
         for word in &out {
             if word.len() >= longest {
                 println!("{word}")

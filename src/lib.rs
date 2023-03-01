@@ -1,3 +1,6 @@
+pub mod cmd_processing;
+pub mod runner;
+
 #[derive(Debug, PartialEq)]
 pub enum Options {
     None,
@@ -7,7 +10,9 @@ pub enum Options {
 }
 
 #[derive(Debug, PartialEq)]
-pub struct ErrorHandler {
-    pub error_string: String,
-    pub error_code: i32,
+pub enum Error {
+    Usage,
+    FileIO(String),
+    LettersLength,
+    LettersContainsNumerics,
 }
