@@ -11,6 +11,7 @@ pub struct Config {
     pub letters: String,
     pub dictionary: String,
 }
+
 impl Config {
     pub fn build(args: &[String]) -> Result<Config, Error> {
         let mut config = Config {
@@ -95,11 +96,10 @@ impl Config {
 #[cfg(test)]
 mod test_build {
     use super::*;
-    mod test_1 {
+    mod test_1_valid_input {
         use super::*;
         #[test]
-        fn test_1_1_valid_input_letters_only() {
-            // letters only
+        fn _1_letters_only() {
             let test_string = "target/debug/ass1 letters";
             let test_input: Vec<String> =
                 test_string.split_whitespace().map(str::to_string).collect();
@@ -110,8 +110,7 @@ mod test_build {
             }
         }
         #[test]
-        fn test_1_2_valid_input() {
-            // no option, no include, dict
+        fn _2_no_option_no_include_dictionary() {
             let test_string = "target/debug/ass1 letters valid_dict.txt";
             let test_input: Vec<String> =
                 test_string.split_whitespace().map(str::to_string).collect();
@@ -120,8 +119,9 @@ mod test_build {
                 Ok(_) => assert!(true),
                 _ => assert!(false, "{:?}", result),
             }
-
-            // option, no include, no dict
+        }
+        #[test]
+        fn _3_option_no_include_no_dict() {
             let test_string = "target/debug/ass1 -len letters";
             let test_input: Vec<String> =
                 test_string.split_whitespace().map(str::to_string).collect();
@@ -130,8 +130,10 @@ mod test_build {
                 Ok(_) => assert!(true),
                 _ => assert!(false, "{:?}", result),
             }
+        }
 
-            // no option, include, no dict
+        #[test]
+        fn _4_no_option_include_no_dict() {
             let test_string = "target/debug/ass1 -include a letters";
             let test_input: Vec<String> =
                 test_string.split_whitespace().map(str::to_string).collect();
@@ -140,8 +142,10 @@ mod test_build {
                 Ok(_) => assert!(true),
                 _ => assert!(false, "{:?}", result),
             }
+        }
 
-            // option, include, no dict
+        #[test]
+        fn _5_option_include_no_dict() {
             let test_string = "target/debug/ass1 -longest -include a letters";
             let test_input: Vec<String> =
                 test_string.split_whitespace().map(str::to_string).collect();
@@ -150,8 +154,10 @@ mod test_build {
                 Ok(_) => assert!(true),
                 _ => assert!(false, "{:?}", result),
             }
+        }
 
-            // include, option, no dict
+        #[test]
+        fn _6_include_option_no_dict() {
             let test_string = "target/debug/ass1 -include a -alpha letters";
             let test_input: Vec<String> =
                 test_string.split_whitespace().map(str::to_string).collect();
@@ -160,8 +166,10 @@ mod test_build {
                 Ok(_) => assert!(true),
                 _ => assert!(false, "{:?}", result),
             }
+        }
 
-            // no option, include, dict
+        #[test]
+        fn _7_no_option_include_dict() {
             let test_string = "target/debug/ass1 -include a letters valid_dict.txt";
             let test_input: Vec<String> =
                 test_string.split_whitespace().map(str::to_string).collect();
@@ -170,8 +178,10 @@ mod test_build {
                 Ok(_) => assert!(true),
                 _ => assert!(false, "{:?}", result),
             }
+        }
 
-            // option, include, dict
+        #[test]
+        fn _8_option_include_dict() {
             let test_string = "target/debug/ass1 -alpha -include a letters valid_dict.txt";
             let test_input: Vec<String> =
                 test_string.split_whitespace().map(str::to_string).collect();
@@ -180,8 +190,10 @@ mod test_build {
                 Ok(_) => assert!(true),
                 _ => assert!(false, "{:?}", result),
             }
+        }
 
-            // include, option, dict
+        #[test]
+        fn _9_include_option_dict() {
             let test_string = "target/debug/ass1 -include a -alpha letters valid_dict.txt";
             let test_input: Vec<String> =
                 test_string.split_whitespace().map(str::to_string).collect();
@@ -193,11 +205,11 @@ mod test_build {
         }
     }
 
-    mod invalid_inputs {
+    mod test_2_invalid_input {
         use super::*;
+
         #[test]
-        fn test_2_invalid_input() {
-            // invalid option
+        fn _1_invalid_option() {
             let test_string = "target/debug/ass1 -invalid letters";
             let test_input: Vec<String> =
                 test_string.split_whitespace().map(str::to_string).collect();
@@ -206,8 +218,10 @@ mod test_build {
                 Err(Error::Usage) => assert!(true),
                 _ => assert!(false, "{:?}", result),
             }
+        }
 
-            // double option
+        #[test]
+        fn _2_double_option() {
             let test_string = "target/debug/ass1 -alpha -alpha letters";
             let test_input: Vec<String> =
                 test_string.split_whitespace().map(str::to_string).collect();
@@ -216,8 +230,10 @@ mod test_build {
                 Err(Error::Usage) => assert!(true),
                 _ => assert!(false, "{:?}", result),
             }
+        }
 
-            // multiple option
+        #[test]
+        fn _3_multiple_option() {
             let test_string = "target/debug/ass1 -alpha -len letters";
             let test_input: Vec<String> =
                 test_string.split_whitespace().map(str::to_string).collect();
@@ -226,8 +242,10 @@ mod test_build {
                 Err(Error::Usage) => assert!(true),
                 _ => assert!(false, "{:?}", result),
             }
+        }
 
-            // include, multiple option
+        #[test]
+        fn _4_include_multiple_option() {
             let test_string = "target/debug/ass1 -include a -alpha -len letters";
             let test_input: Vec<String> =
                 test_string.split_whitespace().map(str::to_string).collect();
@@ -236,8 +254,10 @@ mod test_build {
                 Err(Error::Usage) => assert!(true),
                 _ => assert!(false, "{:?}", result),
             }
+        }
 
-            // multiple option, include
+        #[test]
+        fn _5_multiple_option_include() {
             let test_string = "target/debug/ass1 -alpha -len -include a letters";
             let test_input: Vec<String> =
                 test_string.split_whitespace().map(str::to_string).collect();
@@ -246,8 +266,10 @@ mod test_build {
                 Err(Error::Usage) => assert!(true),
                 _ => assert!(false, "{:?}", result),
             }
+        }
 
-            // include, double option
+        #[test]
+        fn _6_include_double_option() {
             let test_string = "target/debug/ass1 -include a -alpha -alpha letters";
             let test_input: Vec<String> =
                 test_string.split_whitespace().map(str::to_string).collect();
@@ -256,8 +278,9 @@ mod test_build {
                 Err(Error::Usage) => assert!(true),
                 _ => assert!(false, "{:?}", result),
             }
-
-            // double option, include
+        }
+        #[test]
+        fn _7_double_option_include() {
             let test_string = "target/debug/ass1 -alpha -alpha -include a letters";
             let test_input: Vec<String> =
                 test_string.split_whitespace().map(str::to_string).collect();
@@ -266,8 +289,10 @@ mod test_build {
                 Err(Error::Usage) => assert!(true),
                 _ => assert!(false, "{:?}", result),
             }
+        }
 
-            // include multiple letters
+        #[test]
+        fn _8_include_multiple_letters() {
             let test_string = "target/debug/ass1 -include ab letters";
             let test_input: Vec<String> =
                 test_string.split_whitespace().map(str::to_string).collect();
@@ -276,8 +301,10 @@ mod test_build {
                 Err(Error::Usage) => assert!(true),
                 _ => assert!(false, "{:?}", result),
             }
+        }
 
-            // include, no letters
+        #[test]
+        fn _9_include_no_letters() {
             let test_string = "target/debug/ass1 -include a";
             let test_input: Vec<String> =
                 test_string.split_whitespace().map(str::to_string).collect();
@@ -286,8 +313,10 @@ mod test_build {
                 Err(Error::Usage) => assert!(true),
                 _ => assert!(false, "{:?}", result),
             }
+        }
 
-            // args after dict
+        #[test]
+        fn _10_args_after_dict() {
             let test_string = "target/debug/ass1 letters valid_dict.txt /another_dict.txt";
             let test_input: Vec<String> =
                 test_string.split_whitespace().map(str::to_string).collect();
@@ -296,8 +325,10 @@ mod test_build {
                 Err(Error::Usage) => assert!(true),
                 _ => assert!(false, "{:?}", result),
             }
+        }
 
-            // include contains numeric
+        #[test]
+        fn _11_include_contains_numeric() {
             let test_string = "target/debug/ass1 -include 1 letters";
             let test_input: Vec<String> =
                 test_string.split_whitespace().map(str::to_string).collect();
@@ -309,48 +340,36 @@ mod test_build {
         }
     }
 
-    mod invalid_dict {
-        use super::*;
-        #[test]
-        fn test_3_invalid_dict() {
-            let test_string = "target/debug/ass1 letters invalid_dict.txt";
-            let test_input: Vec<String> =
-                test_string.split_whitespace().map(str::to_string).collect();
-            let result = Config::build(&test_input);
-            match result {
-                Err(Error::FileIO(_)) => assert!(true),
-                _ => assert!(false, "{:?}", result),
-            }
+    #[test]
+    fn test_3_invalid_dict() {
+        let test_string = "target/debug/ass1 letters invalid_dict.txt";
+        let test_input: Vec<String> = test_string.split_whitespace().map(str::to_string).collect();
+        let result = Config::build(&test_input);
+        match result {
+            Err(Error::FileIO(_)) => assert!(true),
+            _ => assert!(false, "{:?}", result),
         }
     }
 
-    mod letter_length {
-        use super::*;
-        #[test]
-        fn test_4_not_enough_letters() {
-            let test_string = "target/debug/ass1 le";
-            let test_input: Vec<String> =
-                test_string.split_whitespace().map(str::to_string).collect();
-            let result = Config::build(&test_input);
-            match result {
-                Err(Error::LettersLength) => assert!(true),
-                _ => assert!(false, "{:?}", result),
-            }
+    #[test]
+    fn test_4_not_enough_letters() {
+        let test_string = "target/debug/ass1 le";
+        let test_input: Vec<String> = test_string.split_whitespace().map(str::to_string).collect();
+        let result = Config::build(&test_input);
+        match result {
+            Err(Error::LettersLength) => assert!(true),
+            _ => assert!(false, "{:?}", result),
         }
     }
 
-    mod letter_contains_numerics {
-        use super::*;
-        #[test]
-        fn test_5_letters_contains_numerics() {
-            let test_string = "target/debug/ass1 13773r5";
-            let test_input: Vec<String> =
-                test_string.split_whitespace().map(str::to_string).collect();
-            let result = Config::build(&test_input);
-            match result {
-                Err(Error::LettersContainsNumerics) => assert!(true),
-                _ => assert!(false, "{:?}", result),
-            }
+    #[test]
+    fn test_5_letters_contains_numerics() {
+        let test_string = "target/debug/ass1 13773r5";
+        let test_input: Vec<String> = test_string.split_whitespace().map(str::to_string).collect();
+        let result = Config::build(&test_input);
+        match result {
+            Err(Error::LettersContainsNumerics) => assert!(true),
+            _ => assert!(false, "{:?}", result),
         }
     }
 }

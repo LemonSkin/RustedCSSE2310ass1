@@ -1,4 +1,4 @@
-pub mod cmd_processing;
+pub mod configuration;
 pub mod runner;
 
 #[derive(Debug, PartialEq)]
