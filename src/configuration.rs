@@ -96,13 +96,17 @@ impl Config {
 #[cfg(test)]
 mod test_build {
     use super::*;
+    macro_rules! vec_of_strings {
+        ($($x:expr),*) => (vec![$($x.to_string()),*]);
+    }
     mod test_1_valid_input {
         use super::*;
         #[test]
         fn _1_letters_only() {
-            let test_string = "target/debug/ass1 letters";
-            let test_input: Vec<String> =
-                test_string.split_whitespace().map(str::to_string).collect();
+            // let test_string = "target/debug/ass1 letters";
+            // let test_input: Vec<String> =
+            //     test_string.split_whitespace().map(str::to_string).collect();
+            let test_input = vec_of_strings!("target/debug/ass1", "letters");
             let result = Config::build(&test_input);
             match result {
                 Ok(_) => assert!(true),
